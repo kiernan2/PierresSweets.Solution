@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+@using PierresSweets.Models;
+@model PierresSweets.Models.Flavor;
+
+<h2>Flavor: @Html.DisplayFor(model => model.Name)</h2>
+<hr />
+
+@if (@Model.JoinEntities.Count == 0)
+{
+  <p>This flavor does not belong to any Treats</p>
+}
+else
+{
+  <h4>this flavor belongs to these treats</h4>
+  <ul>
+    @foreach (FlavorTreat join in Model.JoinEntities)
+    {
+      <li>@join.Treat.Name</li>
+    }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back to Flavors", "Index")</p>
+<p>@Html.ActionLink("Edit Flavor", "Edit", new { id = Model.FlavorId })</p>
+<p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.FlavorId})</p>

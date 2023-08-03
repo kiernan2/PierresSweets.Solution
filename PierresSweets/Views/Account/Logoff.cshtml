@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+@using PierresSweets.ViewModels
+
+@model LoginViewModel
+
+<h2>Log out</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Email)
+  <input type="submit" value="Log out" class="btn btn-default" />
+}
