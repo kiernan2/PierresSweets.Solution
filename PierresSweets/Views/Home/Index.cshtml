@@ -1,8 +1,17 @@
 @{
   Layout = "_Layout";
 }
+@using PierresSweets.Models;
+@model List<PierresSweets.Models.Flavor>
+<!-- @model List<PierresSweets.Models.Treat> -->
 
 <h1>Welcome to the PierresSweets</h1>
 
+@foreach (Flavor flavor in Model)
+{
+  <li>@Html.ActionLink($"{flavor.Name}", "Name", new { id = flavor.FlavorId })</li>
+}
+
 <p>@Html.ActionLink("See all Treats", "Index", "Treat")</p>
+<p>@Html.ActionLink("See all Flavors", "Index", "Flavor")</p>
 <p>@Html.ActionLink("Account", "Index", "Account")</p>

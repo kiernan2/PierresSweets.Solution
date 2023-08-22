@@ -8,4 +8,9 @@
 
 <h3>Name: @Html.DisplayFor(model => model.Name)</h3>
 
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Delete" />
+}
+
 @Html.ActionLink("Back to Treats", "Index")

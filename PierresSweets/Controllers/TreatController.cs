@@ -77,7 +77,7 @@ namespace PierresSweets.Controllers
     public ActionResult AddFlavor(int id)
     {
       Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
-      ViewBag.FlavorId = new SelectList(_db.Flavors, "TreatId", "Name");
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
       return View(thisTreat);
     }
 
@@ -85,6 +85,7 @@ namespace PierresSweets.Controllers
     public ActionResult AddFlavor(Treat treat, int flavorId)
     {
       bool duplicate = _db.FlavorTreats.Any(join => join.FlavorId == flavorId && join.TreatId == treat.TreatId);
+
       if (flavorId != 0 && !duplicate)
       {
         _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = flavorId, TreatId = treat.TreatId });
