@@ -1,27 +1,27 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PierresSweets.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using PierresSweets.Models;
 
 namespace PierresSweets.Controllers
 {
   public class HomeController : Controller
   {
     private readonly PierresSweetsContext _db;
+
+    public HomeController(PierresSweetsContext db)
+    {
+      _db = db;
+    }
     
-    [HttpGet("/")]
+    [Route("/")]
     public ActionResult Index()
     {
-      List<Treat> treat = _db.Treats.ToList();
-
-      List<Flavor> flavor = _db.Flavors.ToList();
-      return View();
+      List<Treat> treatList = _db.Treats.ToList();
+      ViewBag.TreatList = treatList;
+      List<Flavor> flavorList = _db.Flavors.ToList();
+      return View(flavorList);
     }
   }
 }

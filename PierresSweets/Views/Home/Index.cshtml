@@ -1,16 +1,39 @@
-@{
-  Layout = "_Layout";
-}
 @using PierresSweets.Models;
+
 @model List<PierresSweets.Models.Flavor>
-<!-- @model List<PierresSweets.Models.Treat> -->
 
 <h1>Welcome to the PierresSweets</h1>
 
-@foreach (Flavor flavor in Model)
+@if(Model.Any()) 
 {
-  <li>@Html.ActionLink($"{flavor.Name}", "Name", new { id = flavor.FlavorId })</li>
+  <ul>
+  @foreach (Flavor flavor in Model)
+  {
+    <h2>Flavors</h2>
+    <li>@Html.ActionLink($"{flavor.Name}", "Name", new { id = flavor.FlavorId })</li>
+  }
+  </ul>
 }
+else
+{
+  <p>No flavors added</p>
+}
+@if(Model.Any())
+{
+  <ul>
+    @foreach (Treat treat in ViewBag.TreatList)
+    {
+      <h2>Treats</h2>
+      <li>@Html.ActionLink($"{treat.Name}", "Name", new { id = treat.TreatId })</li>
+    }
+  </ul>
+}
+else
+{
+  <p>No treats added</p>
+}
+
+
 
 <p>@Html.ActionLink("See all Treats", "Index", "Treat")</p>
 <p>@Html.ActionLink("See all Flavors", "Index", "Flavor")</p>
