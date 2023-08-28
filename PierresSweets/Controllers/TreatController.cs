@@ -42,14 +42,24 @@ namespace PierresSweets.Controllers
 
     public ActionResult Create()
     {
+      ViewBag.FlavorId = new SelectList(_db.Treats, "FlavorId"); 
       return View();
     }
 
     [HttpPost]
-    public ActionResult Create(Treat treat)
+    public async Task<ActionResult> Create(Treat treat, int flavorId)
     {
+      string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      treat.User = currentUser;
+
       _db.Treats.Add(treat);
       _db.SaveChanges();
+      if (flavorId != 0)
+      {
+        _db.FlavorTreats.Add(new FlavorTreat() { TreatId = treat.TreatId, FlavorId = flavorId });
+        _db.SaveChanges();
+      }
       return RedirectToAction("Index");
     }
 
