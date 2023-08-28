@@ -23,10 +23,41 @@ namespace PierresSweets.Collections
       _db = db;
     }
 
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-      List<Flavor> model = _db.Flavors.ToList();
+      string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      List<Flavor> model = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
       return View(model);
+    }
+
+    public ActionResult Create()
+    {
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "Name");
+      return View();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Create(Flavor flavor, int treatId)
+    {
+      string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
+      flavor.User = currentUser;
+
+      _db.Flavors.Add(flavor);
+      _db.SaveChanges();
+      if (treatId != 0)
+      {
+        _db.FlavorTreats.Add(new FlavorTreat() { FlavorId = flavor.FlavorId, TreatId = treatId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      return View (thisFlavor);
     }
 
     public ActionResult Details(int id)
@@ -36,25 +67,6 @@ namespace PierresSweets.Collections
           .ThenInclude(join => join.Treat)
         .FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
-    }
-
-    public ActionResult Create()
-    {
-      return View();
-    }
-
-    [HttpPost]
-    public ActionResult Create(Flavor flavor)
-    {
-      _db.Flavors.Add(flavor);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
-    }
-
-    public ActionResult Edit(int id)
-    {
-      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
-      return View (thisFlavor);
     }
 
     [HttpPost]

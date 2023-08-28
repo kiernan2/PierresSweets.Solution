@@ -7,10 +7,10 @@
 @if(Model.Any()) 
 {
   <ul>
+  <h2>Flavors</h2>
   @foreach (Flavor flavor in Model)
   {
-    <h2>Flavors</h2>
-    <li>@Html.ActionLink($"{flavor.Name}", "Name", new { id = flavor.FlavorId })</li>
+    <li>@Html.ActionLink($"{flavor.Name}", "Details", "Flavor", new { id = flavor.FlavorId })</li>
   }
   </ul>
 }
@@ -21,11 +21,11 @@ else
 @if(Model.Any())
 {
   <ul>
-    @foreach (Treat treat in ViewBag.TreatList)
-    {
-      <h2>Treats</h2>
-      <li>@Html.ActionLink($"{treat.Name}", "Name", new { id = treat.TreatId })</li>
-    }
+  <h2>Treats</h2>
+  @foreach (Treat treat in ViewBag.TreatList)
+  {
+    <li>@Html.ActionLink($"{treat.Name}", "Details", "Treat", new { id = treat.TreatId })</li>
+  }
   </ul>
 }
 else
