@@ -23,12 +23,21 @@ namespace PierresSweets.Collections
       _db = db;
     }
 
+    [AllowAnonymous]
     public async Task<ActionResult> Index()
     {
       string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-      List<Flavor> model = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(model);
+      if (currentUser?.Id != null)
+      {
+        List<Flavor> userFlavor = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
+        return View(userFlavor);
+      }
+      else
+      {
+        List<Flavor> userFlavor = _db.Flavors.ToList();
+        return View(userFlavor);
+      }
     }
 
     public ActionResult Create()
@@ -60,6 +69,7 @@ namespace PierresSweets.Collections
       return View (thisFlavor);
     }
 
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       Flavor thisFlavor = _db.Flavors

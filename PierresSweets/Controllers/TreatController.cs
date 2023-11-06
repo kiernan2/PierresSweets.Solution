@@ -23,14 +23,24 @@ namespace PierresSweets.Controllers
       _db = db;
     }
 
+    [AllowAnonymous]
     public async Task<ActionResult> Index()
     {
       string userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-      List<Treat> userTreat = _db.Treats.Where(entry => entry.User.Id == currentUser.Id || entry.User.Id == null).ToList();
-      return View(userTreat);
+      if (currentUser?.Id != null)
+      {
+        List<Treat> userTreat = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
+        return View(userTreat);
+      }
+      else
+      {
+        List<Treat> userTreat = _db.Treats.ToList();
+        return View(userTreat);
+      }
     }
 
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       Treat thisTreat = _db.Treats

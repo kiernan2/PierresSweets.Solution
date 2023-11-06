@@ -1,6 +1,6 @@
 # Pierre's Sweet and Savory Treats
 
-#### Tracking and cross referencing recipes for Fidgetech
+#### A program for tracking flavors and the treats there in
 
 #### By Kiernan Beattie 
 
@@ -14,7 +14,9 @@
 
 ## Description
 
-* A program for tracking flavors and the treats there in
+* You can Create treats and flavors and link them together
+* Supports users (Treats and flavors are linked to accounts When logged in you can only see your treats and flavors)
+* 
 
 ## Setup/Installation Requirements
 
@@ -33,8 +35,13 @@
 6. Enter dotnet run
 7. Open a browser Go to `http://localhost:5000`
 
+## Known Bugs
 
-MIT
+* N/a
+
+## License
+
+MIT 2023
 
 ## Contact Information
 Kiernan1994@gmail.com
