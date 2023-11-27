@@ -10,13 +10,12 @@
 * Dotnet
 * Html
 * Entity
-* MySQL
+* My
 
 ## Description
 
 * You can Create treats and flavors and link them together
 * Supports users (Treats and flavors are linked to accounts When logged in you can only see your treats and flavors)
-* 
 
 ## Setup/Installation Requirements
 
